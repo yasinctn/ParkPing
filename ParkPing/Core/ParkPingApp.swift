@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct ParkPingApp: App {
+    
+    init() {
+        // Initialize location manager
+        _ = LocationManager.shared
+    }
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
