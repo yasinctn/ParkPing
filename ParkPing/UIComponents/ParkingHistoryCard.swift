@@ -14,7 +14,7 @@ struct ParkingHistoryCard: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
-        return formatter.string(from: parkingSpot.timestamp!)
+        return formatter.string(from: parkingSpot.timestamp)
     }
     
     var body: some View {

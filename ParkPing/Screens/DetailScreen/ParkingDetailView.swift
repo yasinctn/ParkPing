@@ -13,6 +13,20 @@ struct ParkingDetailView: View {
     let parkingSpot: ParkingSpotEntity
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = ParkingDetailViewModel()
+    @StateObject private var deletionCoordinator = DeletionCoordinator()
+    
+    @MainActor
+        private func handleDelete() async {
+            HapticManager.shared.notification(.warning)
+            
+            let success = await deletionCoordinator.deleteParkingSpot(with: parkingSpot.objectID)
+            
+            if success {
+                // Sadece başarılı silme işleminden sonra dismiss et
+                dismiss()
+            }
+            // Error durumunda alert otomatik gösterilecek
+        }
     
     var body: some View {
         GeometryReader { geometry in
@@ -52,22 +66,9 @@ struct ParkingDetailView: View {
                             .foregroundColor(.primary)
                         
                         Spacer()
-                        
-                        // Share button
-                        Button {
-                            HapticManager.shared.selection()
-                            viewModel.shareLocation(parkingSpot)
-                        } label: {
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.title2)
-                                .foregroundColor(.primary)
-                                .frame(width: 44, height: 44)
-                                .background(.ultraThinMaterial)
-                                .clipShape(Circle())
-                        }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 10)
+                    .padding(.vertical, 10)
                     
                     // Map Section
                     VStack(spacing: 16) {
@@ -88,36 +89,20 @@ struct ParkingDetailView: View {
                             )
                             
                             // Directions Button Overlay
-                            VStack {
+                            VStack{
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                    Button {
+                                    
+                                    DirectionsButton {
                                         HapticManager.shared.impact(.medium)
                                         viewModel.openDirections(to: parkingSpot)
-                                    } label: {
-                                        HStack {
-                                            Image(systemName: "location.fill")
-                                            Text("Directions")
-                                                .fontWeight(.semibold)
-                                        }
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 12)
-                                        .background(
-                                            LinearGradient(
-                                                colors: [.blue, .purple],
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
-                                        .clipShape(Capsule())
-                                        .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
-                                    }
-                                    .padding(.trailing, 16)
+                                    }.padding(8)
                                 }
-                                .padding(.bottom, 16)
+                                .padding(8)
                             }
+                            
+                            
                         }
                         .padding(.horizontal, 20)
                         
@@ -158,9 +143,9 @@ struct ParkingDetailView: View {
         .navigationBarHidden(true)
         .alert("Delete Parking Spot", isPresented: $viewModel.showDeleteAlert) {
             Button("Delete", role: .destructive) {
-                HapticManager.shared.notification(.warning)
-                // TODO: Implement delete functionality with callback
-                dismiss()
+                Task {
+                    await handleDelete()
+                }
             }
             Button("Cancel", role: .cancel) {
                 HapticManager.shared.selection()
@@ -254,7 +239,7 @@ struct LocationDetailsCard: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
-        return formatter.string(from: spot.timestamp!)
+        return formatter.string(from: spot.timestamp)
     }
     private var coordinatesString: String {
         String(format: "%.6f, %.6f", parkingSpot!.latitude, parkingSpot?.longitude ?? 0.000)

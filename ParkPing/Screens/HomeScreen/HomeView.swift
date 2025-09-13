@@ -81,26 +81,29 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, 20)
                     
-                    ScrollView {
-                        List {
-                            ForEach(viewModel.parkingSpots.prefix(3)) { spot in
-                                
-                                ParkingHistoryCard(parkingSpot: spot)
+                    
+                    List {
+                        ForEach(viewModel.parkingSpots.prefix(3)) { spot in
+                            
+                            ParkingHistoryCard(parkingSpot: spot)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
                                 .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
-                            }
-                            .onDelete { indexSet in
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    viewModel.deleteMultipleParkingSpots(at: indexSet)
-                                }
+                        }
+                        .onDelete { indexSet in
+                            Task {
+                                await viewModel.deleteMultipleParkingSpots(at: indexSet)
                             }
                         }
-                        .listStyle(.plain)
-                        .frame(height: CGFloat(min(viewModel.parkingSpots.count, 5) * 80))
-                        .scrollDisabled(true)
                     }
+                    .refreshable {
+                        await viewModel.refreshParkingSpots()
+                    }
+                    .listStyle(.plain)
+                    .frame(height: CGFloat(min(viewModel.parkingSpots.count, 5) * 80))
                     
+                    
+                    Spacer()
                 }
                 
                 
@@ -115,6 +118,9 @@ struct HomeView: View {
                 }
             }
             .navigationBarHidden(true)
+            .onAppear(perform: {
+                viewModel.refreshData()
+            })
             .alert("Location Error", isPresented: .constant(locationManager.locationError != nil)) {
                 Button("Settings") {
                     locationManager.openLocationSettings()

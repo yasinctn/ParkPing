@@ -19,6 +19,8 @@ class ParkingViewModel: ObservableObject {
     @Published var toastMessage = ""
     @Published var errorMessage: String?
     
+    @Published var isRefreshing = false
+    
     // MARK: - Dependencies
     private let locationManager = LocationManager.shared
     private let coreDataManager = CoreDataManager.shared
@@ -93,9 +95,9 @@ class ParkingViewModel: ObservableObject {
     }
     
     /// Delete a specific parking spot
-    func deleteParkingSpot(_ entity: ParkingSpotEntity) {
+    func deleteParkingSpot(_ entity: ParkingSpotEntity) async {
         do {
-            coreDataManager.deleteParkingSpot(entity)
+            try await coreDataManager.deleteParkingSpot(with: entity.objectID)
             loadParkingSpots()
             showSuccessToast("Parking spot deleted")
         } catch {
@@ -104,11 +106,11 @@ class ParkingViewModel: ObservableObject {
     }
     
     /// Delete multiple parking spots
-    func deleteMultipleParkingSpots(at offsets: IndexSet) {
+    func deleteMultipleParkingSpots(at offsets: IndexSet) async {
         do {
             for index in offsets {
                 let entity = parkingSpots[index]
-                coreDataManager.deleteParkingSpot(entity)
+                try await coreDataManager.deleteParkingSpot(with: entity.objectID)
             }
             
             loadParkingSpots()
@@ -121,16 +123,23 @@ class ParkingViewModel: ObservableObject {
     }
     
     /// Clear all parking spots
-    func clearAllParkingSpots() {
+    func clearAllParkingSpots() async {
         do {
             for entity in parkingSpots {
-                coreDataManager.deleteParkingSpot(entity)
+                try await coreDataManager.deleteParkingSpot(with: entity.objectID)
             }
             loadParkingSpots()
             showSuccessToast("All parking spots cleared")
         } catch {
             handleError("Failed to clear parking spots: \(error.localizedDescription)")
         }
+    }
+    
+    @MainActor
+    func refreshParkingSpots() async {
+        isRefreshing = true
+        refreshData()
+        isRefreshing = false
     }
     
     /// Refresh data from Core Data

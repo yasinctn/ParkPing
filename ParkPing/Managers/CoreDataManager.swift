@@ -57,21 +57,36 @@ class CoreDataManager: ObservableObject {
         return entity
     }
     
-    func deleteParkingSpot(_ entity: ParkingSpotEntity) {
-        context.delete(entity)
-        save()
-    }
-}
-
-extension ParkingSpotEntity {
-    var toParkingSpot: ParkingSpot {
-        ParkingSpot(
-            latitude: self.latitude,
-            longitude: self.longitude,
-            timestamp: self.timestamp!,
-            title: self.title,
-            address: self.address
-        )
-    }
+    func deleteParkingSpot(with objectID: NSManagedObjectID) async throws {
+            return try await withCheckedThrowingContinuation { continuation in
+                // Background context kullan
+                let backgroundContext = persistentContainer.newBackgroundContext()
+                
+                backgroundContext.perform {
+                    do {
+                        if let obj = try? backgroundContext.existingObject(with: objectID) {
+                            backgroundContext.delete(obj)
+                            try backgroundContext.save()
+                            
+                            // Main context'i de güncelle
+                            DispatchQueue.main.async {
+                                do {
+                                    if self.context.hasChanges {
+                                        try self.context.save()
+                                    }
+                                    continuation.resume()
+                                } catch {
+                                    continuation.resume(throwing: error)
+                                }
+                            }
+                        } else {
+                            continuation.resume()
+                        }
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        }
 }
 
