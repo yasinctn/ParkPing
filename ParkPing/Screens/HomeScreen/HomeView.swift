@@ -29,7 +29,7 @@ struct HomeView: View {
                 VStack(spacing: 24) {
                     // Header
                     VStack(spacing: 8) {
-                        Text("ParkSpot")
+                        Text("ParkPing")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
