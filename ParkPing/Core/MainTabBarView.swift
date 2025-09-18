@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabBarView: View {
+    @EnvironmentObject var parkingViewModel: ParkingViewModel
     var body: some View {
         
         TabView {
@@ -16,6 +17,7 @@ struct MainTabBarView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
+                .environmentObject(parkingViewModel)
                 .tag(0)
             
                      
@@ -24,6 +26,7 @@ struct MainTabBarView: View {
                     Image(systemName: "list.bullet")
                     Text("History")
                 }
+                .environmentObject(parkingViewModel)
                 .tag(1)
             
             SettingsView()

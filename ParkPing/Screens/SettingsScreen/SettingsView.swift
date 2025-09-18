@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Background gradient
                 LinearGradient(
@@ -22,51 +22,55 @@ struct SettingsView: View {
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
-                Form {
-                    Section("Uygulama") {
-                        HStack {
-                            Image(systemName: "info.circle")
-                            Text("Versiyon")
-                            Spacer()
-                            Text("1.0")
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Link(destination: URL(string: "https://apps.apple.com/app/parkping")!) {
+                
+                    Form {
+                        Section("Uygulama") {
                             HStack {
-                                Image(systemName: "star")
-                                Text("Uygulamayı Değerlendir")
+                                Image(systemName: "info.circle")
+                                Text("Versiyon")
                                 Spacer()
-                                Image(systemName: "arrow.up.right")
-                                    .font(.caption)
+                                Text("1.0")
                                     .foregroundColor(.secondary)
                             }
-                        }
-                    }
-                    
-                    Section("Gizlilik") {
-                        HStack {
-                            Image(systemName: "location")
-                            VStack(alignment: .leading) {
-                                Text("Konum Verileri")
-                                Text("Sadece cihazınızda saklanır")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                            
+                            Link(destination: URL(string: "https://apps.apple.com/app/parkping")!) {
+                                HStack {
+                                    Image(systemName: "star")
+                                    Text("Uygulamayı Değerlendir")
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
                         
-                        HStack {
-                            Image(systemName: "bell")
-                            VStack(alignment: .leading) {
-                                Text("Bildirimler")
-                                Text("Sadece yerel hatırlatmalar")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                        Section("Gizlilik") {
+                            HStack {
+                                Image(systemName: "location")
+                                VStack(alignment: .leading) {
+                                    Text("Konum Verileri")
+                                    Text("Sadece cihazınızda saklanır")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            
+                            HStack {
+                                Image(systemName: "bell")
+                                VStack(alignment: .leading) {
+                                    Text("Bildirimler")
+                                    Text("Sadece yerel hatırlatmalar")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
                     }
-                }
-                .navigationTitle("Ayarlar")
+                    .navigationTitle("Ayarlar")
+                    .scrollContentBackground(.hidden)
+                    .background(.clear)
+                
             }
         }
     }

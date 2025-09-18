@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct ParkPingApp: App {
+    @StateObject private var viewModel = ParkingViewModel()
     
     init() {
         // Initialize location manager
@@ -18,6 +19,7 @@ struct ParkPingApp: App {
     var body: some Scene {
         WindowGroup {
             MainTabBarView()
+                .environmentObject(viewModel)
             
         }
     }

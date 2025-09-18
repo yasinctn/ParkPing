@@ -49,12 +49,12 @@ class ParkingViewModel: ObservableObject {
     func loadParkingSpots() {
         do {
             parkingSpots = coreDataManager.fetchParkingSpots()
-            
+            /*
             // Create initial mock data if empty
             if parkingSpots.isEmpty {
                 createInitialMockData()
             }
-            
+            */
             clearError()
         } catch {
             handleError("Failed to load parking spots: \(error.localizedDescription)")

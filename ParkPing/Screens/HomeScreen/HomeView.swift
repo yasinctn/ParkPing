@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = ParkingViewModel()
+    @EnvironmentObject private var viewModel: ParkingViewModel
     @StateObject private var locationManager = LocationManager.shared
     
     var body: some View {
@@ -41,8 +41,11 @@ struct HomeView: View {
                     .padding(.top, 20)
                     
                     // Recent Parking Section
-                    RecentParkingCard(parkingSpot: viewModel.mostRecentSpot)
-                        .padding(.horizontal, 20)
+                    if viewModel.parkingSpots.isEmpty {
+                        EmptyStateView()
+                    }else {
+                        RecentParkingCard(parkingSpot: viewModel.mostRecentSpot)
+                    }
                     
                     // Main Save Button
                     GlassmorphicButton(
