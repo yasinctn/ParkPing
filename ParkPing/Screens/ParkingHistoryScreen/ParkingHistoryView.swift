@@ -12,7 +12,7 @@ struct ParkingHistoryView: View {
     @StateObject private var viewModel = ParkingViewModel()
     
     var body: some View {
-        NavigationStack{
+        NavigationView{
             
             ZStack {
                 // Background gradient

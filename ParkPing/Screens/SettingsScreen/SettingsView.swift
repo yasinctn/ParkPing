@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ZStack {
                 // Background gradient
                 LinearGradient(
@@ -23,6 +24,7 @@ struct SettingsView: View {
                 )
                 .ignoresSafeArea()
                 
+                if #available(iOS 16.0, *) {
                     Form {
                         Section("Uygulama") {
                             HStack {
@@ -70,6 +72,54 @@ struct SettingsView: View {
                     .navigationTitle("Ayarlar")
                     .scrollContentBackground(.hidden)
                     .background(.clear)
+                } else {
+                    Form {
+                        Section("Uygulama") {
+                            HStack {
+                                Image(systemName: "info.circle")
+                                Text("Versiyon")
+                                Spacer()
+                                Text("1.0")
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Link(destination: URL(string: "https://apps.apple.com/app/parkping")!) {
+                                HStack {
+                                    Image(systemName: "star")
+                                    Text("Uygulamayı Değerlendir")
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                        
+                        Section("Gizlilik") {
+                            HStack {
+                                Image(systemName: "location")
+                                VStack(alignment: .leading) {
+                                    Text("Konum Verileri")
+                                    Text("Sadece cihazınızda saklanır")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            
+                            HStack {
+                                Image(systemName: "bell")
+                                VStack(alignment: .leading) {
+                                    Text("Bildirimler")
+                                    Text("Sadece yerel hatırlatmalar")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                    }
+                    .navigationTitle("Ayarlar")
+                    .background(.clear)
+                }
                 
             }
         }

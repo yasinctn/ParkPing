@@ -12,7 +12,7 @@ struct HomeView: View {
     @StateObject private var locationManager = LocationManager.shared
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ZStack {
                 // Background gradient
                 LinearGradient(
@@ -43,8 +43,10 @@ struct HomeView: View {
                     // Recent Parking Section
                     if viewModel.parkingSpots.isEmpty {
                         EmptyStateView()
+                            .padding()
                     }else {
                         RecentParkingCard(parkingSpot: viewModel.mostRecentSpot)
+                            .padding()
                     }
                     
                     // Main Save Button
