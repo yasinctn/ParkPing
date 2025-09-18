@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HapticManager {
+final class HapticManager {
     static let shared = HapticManager()
     private init() {}
     

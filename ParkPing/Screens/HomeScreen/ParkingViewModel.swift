@@ -26,8 +26,8 @@ class ParkingViewModel: ObservableObject {
     private let coreDataManager = CoreDataManager.shared
     
     // MARK: - Computed Properties
-    var mostRecentSpot: ParkingSpot? {
-        parkingSpots.first?.toParkingSpot
+    var mostRecentSpot: ParkingSpotEntity? {
+        parkingSpots.first
     }
     
     var parkingSpotsCount: Int {

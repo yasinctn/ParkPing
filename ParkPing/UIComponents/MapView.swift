@@ -11,7 +11,6 @@ import MapKit
 // MARK: - MapView Component
 struct MapView: UIViewRepresentable {
     let parkingSpot: ParkingSpotEntity
-    let onDirectionsTap: () -> Void
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -85,10 +84,6 @@ struct MapView: UIViewRepresentable {
             }
             
             return annotationView
-        }
-        
-        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-            parent.onDirectionsTap()
         }
     }
 }

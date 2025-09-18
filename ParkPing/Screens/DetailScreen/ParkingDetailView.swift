@@ -44,42 +44,12 @@ struct ParkingDetailView: View {
                 .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    // Custom Navigation Bar
-                    HStack {
-                        Button {
-                            HapticManager.shared.selection()
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .font(.title2)
-                                .foregroundColor(.primary)
-                                .frame(width: 44, height: 44)
-                                .background(.ultraThinMaterial)
-                                .clipShape(Circle())
-                        }
-                        
-                        Spacer()
-                        
-                        Text("Parking Details")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    
                     // Map Section
                     VStack(spacing: 16) {
                         // Map
                         ZStack {
                             MapView(
-                                parkingSpot: parkingSpot,
-                                onDirectionsTap: {
-                                    HapticManager.shared.impact(.medium)
-                                    viewModel.openDirections(to: parkingSpot)
-                                }
+                                parkingSpot: parkingSpot
                             )
                             .frame(height: geometry.size.height * 0.45)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -140,7 +110,6 @@ struct ParkingDetailView: View {
                 }
             }
         }
-        .navigationBarHidden(true)
         .alert("Delete Parking Spot", isPresented: $viewModel.showDeleteAlert) {
             Button("Delete", role: .destructive) {
                 Task {
@@ -200,112 +169,5 @@ struct ActionsSection: View {
     }
 }
 
-struct ActionButton: View {
-    let icon: String
-    let title: String
-    let color: Color
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 8) {
-                Image(systemName: icon)
-                    .font(.title2)
-                    .foregroundColor(color)
-                
-                Text(title)
-                    .font(.caption)
-                    .foregroundColor(.primary)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.regularMaterial)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.white.opacity(0.05), lineWidth: 1)
-            )
-        }
-    }
-}
 
-struct LocationDetailsCard: View {
-    let parkingSpot: ParkingSpotEntity?
-    
-    private var formattedDate: String {
-        guard let spot = parkingSpot else { return "" }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: spot.timestamp)
-    }
-    private var coordinatesString: String {
-        String(format: "%.6f, %.6f", parkingSpot!.latitude, parkingSpot?.longitude ?? 0.000)
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Location Details")
-                .font(.headline)
-                .foregroundColor(.primary)
-            
-            VStack(spacing: 12) {
-                DetailRow(
-                    icon: "location",
-                    title: "Coordinates",
-                    value: coordinatesString
-                )
-                
-                DetailRow(
-                    icon: "clock",
-                    title: "Saved",
-                    value: formattedDate
-                )
-                
-                if let address = parkingSpot?.address {
-                    DetailRow(
-                        icon: "mappin.circle",
-                        title: "Address",
-                        value: address
-                    )
-                }
-            }
-        }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.regularMaterial)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.white.opacity(0.1), lineWidth: 1)
-        )
-    }
-}
 
-struct DetailRow: View {
-    let icon: String
-    let title: String
-    let value: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: icon)
-                .foregroundColor(.blue)
-                .frame(width: 20)
-            
-            Text(title)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            
-            Spacer()
-            
-            Text(value)
-                .font(.subheadline)
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.trailing)
-        }
-    }
-}

@@ -12,7 +12,7 @@ struct HomeView: View {
     @StateObject private var locationManager = LocationManager.shared
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Background gradient
                 LinearGradient(
@@ -61,52 +61,7 @@ struct HomeView: View {
                     )
                     .padding(.horizontal, 20)
                     
-                    
-                    // History Section
-                    HStack {
-                        Text("Parking History")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        Text("\(viewModel.parkingSpots.count) spots")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(.ultraThinMaterial)
-                            .clipShape(Capsule())
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    
-                    List {
-                        ForEach(viewModel.parkingSpots.prefix(3)) { spot in
-                            
-                            ParkingHistoryCard(parkingSpot: spot)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
-                        }
-                        .onDelete { indexSet in
-                            Task {
-                                await viewModel.deleteMultipleParkingSpots(at: indexSet)
-                            }
-                        }
-                    }
-                    .refreshable {
-                        await viewModel.refreshParkingSpots()
-                    }
-                    .listStyle(.plain)
-                    .frame(height: CGFloat(min(viewModel.parkingSpots.count, 5) * 80))
-                    
-                    
-                    Spacer()
                 }
-                
-                
                 // Toast Notification
                 VStack {
                     Spacer()
