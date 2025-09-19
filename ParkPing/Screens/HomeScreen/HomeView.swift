@@ -45,8 +45,14 @@ struct HomeView: View {
                         EmptyStateView()
                             .padding()
                     }else {
-                        RecentParkingCard(parkingSpot: viewModel.mostRecentSpot)
-                            .padding()
+                        
+                        if let spot = viewModel.parkingSpots.first,!spot.isDeleted,
+                           spot.managedObjectContext != nil {
+                            RecentParkingCard(parkingSpot: spot)
+                                .padding()
+                        } else {
+                            EmptyStateView().padding()
+                        }
                     }
                     
                     // Main Save Button

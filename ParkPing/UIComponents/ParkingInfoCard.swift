@@ -7,18 +7,50 @@
 
 import SwiftUI
 
-// MARK: - Detail Cards
 struct ParkingInfoCard: View {
-    let parkingSpot: ParkingSpotEntity
+    @ObservedObject var parkingSpot: ParkingSpotEntity
+    
+    // Silinmiş/bağlamsız obje güvenlik kontrolü
+    private var isValid: Bool {
+        parkingSpot.managedObjectContext != nil && !parkingSpot.isDeleted
+    }
+    
+    // Güvenli alan erişimleri
+    private var safeTimestamp: Date? {
+        guard isValid else { return nil }
+        return parkingSpot.timestamp
+    }
+    
+    private var safeTitle: String {
+        guard isValid else { return "Parking Spot" }
+        return (parkingSpot.title?.isEmpty == false ? parkingSpot.title! : "Parking Spot")
+    }
+    
+    private var safeAddress: String? {
+        guard isValid else { return nil }
+        return parkingSpot.address
+    }
     
     private var formattedDate: String {
+        guard let date = safeTimestamp else { return "" }
         let formatter = DateFormatter()
         formatter.dateStyle = .full
         formatter.timeStyle = .short
-        return formatter.string(from: parkingSpot.timestamp)
+        return formatter.string(from: date)
     }
     
     var body: some View {
+        Group {
+            if isValid {
+                content
+            } else {
+                // Silme/merge anında kısa süreliğine görünmesin
+                EmptyView().frame(height: 0)
+            }
+        }
+    }
+    
+    private var content: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 ZStack {
@@ -38,20 +70,22 @@ struct ParkingInfoCard: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(parkingSpot.title ?? "Parking Spot")
+                    Text(safeTitle)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
-                    Text("Saved on \(formattedDate)")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    if !formattedDate.isEmpty {
+                        Text("Saved on \(formattedDate)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 
                 Spacer()
             }
             
-            if let address = parkingSpot.address {
+            if let address = safeAddress, !address.isEmpty {
                 HStack {
                     Image(systemName: "mappin.and.ellipse")
                         .foregroundColor(.blue)

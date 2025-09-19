@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ParkingHistoryView: View {
     
@@ -28,8 +29,13 @@ struct ParkingHistoryView: View {
                 .ignoresSafeArea()
                 
                 VStack{
-                    RecentParkingCard(parkingSpot: viewModel.mostRecentSpot)
-                        .padding()
+                    if let spot = viewModel.parkingSpots.first,!spot.isDeleted,
+                       spot.managedObjectContext != nil {
+                        RecentParkingCard(parkingSpot: spot)
+                            .padding()
+                    } else {
+                        EmptyStateView().padding()
+                    }
                     // History Section
                     HStack {
                         Text("Parking History")
@@ -51,27 +57,27 @@ struct ParkingHistoryView: View {
                     
                     
                     List {
-                        ForEach(viewModel.parkingSpots.prefix(3)) { spot in
-                            
+                        ForEach(viewModel.parkingSpots, id: \.objectID) { spot in
                             ParkingHistoryCard(parkingSpot: spot)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
+                                .listRowInsets(
+                                    EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20)
+                                )
                         }
                         .onDelete { indexSet in
                             Task {
-                                await viewModel.deleteMultipleParkingSpots(at: indexSet)
+                                for index in indexSet {
+                                    let spot = viewModel.parkingSpots[index]
+                                    await viewModel.deleteParkingSpot(spot)
+                                }
                             }
                         }
-                    }.onAppear {
-                        Task { 
-                            await viewModel.refreshParkingSpots()
-                        }
                     }
-                    .refreshable {
-                        await viewModel.refreshParkingSpots()
-                    }
+                    .onAppear { Task { await viewModel.refreshParkingSpots() } }
+                    .refreshable { await viewModel.refreshParkingSpots() }
                     .listStyle(.plain)
+                    
                     .frame(height: CGFloat(min(viewModel.parkingSpots.count, 5) * 80))
                     
                     

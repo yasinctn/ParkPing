@@ -14,6 +14,10 @@ final class ParkingDetailViewModel: ObservableObject {
     @Published var showShareSheet = false
     @Published var shareItem: String?
     
+    @Published var isEditing = false
+    @Published var editedTitle: String = ""
+    @Published var editedAddress: String = ""
+    
     func openDirections(to parkingSpot: ParkingSpotEntity) {
         let coordinate = CLLocationCoordinate2D(
             latitude: parkingSpot.latitude,
@@ -45,6 +49,23 @@ final class ParkingDetailViewModel: ObservableObject {
         
         shareItem = shareText
         showShareSheet = true
+    }
+    
+    // Edit işlemi başlatılırken mevcut veriler doldurulsun
+    func beginEditing(parkingSpot: ParkingSpotEntity) {
+        editedTitle = parkingSpot.title ?? ""
+        editedAddress = parkingSpot.address ?? ""
+        isEditing = true
+    }
+    // Değişiklikleri kaydet
+    func saveEdits(for parkingSpot: ParkingSpotEntity) {
+        CoreDataManager.shared.updateParkingSpot(
+            parkingSpot,
+            title: editedTitle.isEmpty ? nil : editedTitle,
+            address: editedAddress.isEmpty ? nil : editedAddress
+        )
+        
+        isEditing = false
     }
 }
 

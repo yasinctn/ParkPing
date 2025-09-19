@@ -10,7 +10,7 @@ import MapKit
 
 // MARK: - MapView Component
 struct MapView: UIViewRepresentable {
-    let parkingSpot: ParkingSpotEntity
+    @ObservedObject var parkingSpot: ParkingSpotEntity
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()

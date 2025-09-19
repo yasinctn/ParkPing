@@ -8,7 +8,7 @@
 
 import CoreData
 
-class CoreDataManager: ObservableObject {
+final class CoreDataManager: ObservableObject {
     static let shared = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -18,8 +18,14 @@ class CoreDataManager: ObservableObject {
                 fatalError("Core Data error: \(error.localizedDescription)")
             }
         }
+        
+        // 🔧 ÖNEMLİ: Ana context, arka plan kayıtlardaki değişiklikleri otomatik merge etsin
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
         return container
     }()
+    
     
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
@@ -57,36 +63,25 @@ class CoreDataManager: ObservableObject {
         return entity
     }
     
-    func deleteParkingSpot(with objectID: NSManagedObjectID) async throws {
-            return try await withCheckedThrowingContinuation { continuation in
-                // Background context kullan
-                let backgroundContext = persistentContainer.newBackgroundContext()
-                
-                backgroundContext.perform {
-                    do {
-                        if let obj = try? backgroundContext.existingObject(with: objectID) {
-                            backgroundContext.delete(obj)
-                            try backgroundContext.save()
-                            
-                            // Main context'i de güncelle
-                            DispatchQueue.main.async {
-                                do {
-                                    if self.context.hasChanges {
-                                        try self.context.save()
-                                    }
-                                    continuation.resume()
-                                } catch {
-                                    continuation.resume(throwing: error)
-                                }
-                            }
-                        } else {
-                            continuation.resume()
-                        }
-                    } catch {
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
+    func delete(_ parkingSpot: ParkingSpotEntity) throws {
+        let obj = context.object(with: parkingSpot.objectID)
+        context.delete(obj)
+        try context.save()
+    }
+    
+    // Birden fazla silme için:
+    func delete(with objectIDs: [NSManagedObjectID]) throws {
+        for id in objectIDs {
+            let obj = context.object(with: id)
+            context.delete(obj)
         }
+        try context.save()
+    }
+    
+    func updateParkingSpot(_ parkingSpot: ParkingSpotEntity, title: String?, address: String?) {
+        parkingSpot.title = title
+        parkingSpot.address = address// güncellenme tarihi
+        save()
+    }
 }
 

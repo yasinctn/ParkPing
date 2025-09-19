@@ -8,26 +8,30 @@
 import SwiftUI
 
 struct RecentParkingCard: View {
-    let parkingSpot: ParkingSpotEntity?
+    @ObservedObject var parkingSpot: ParkingSpotEntity
     
+    private var isValid: Bool {
+        parkingSpot.managedObjectContext != nil && !parkingSpot.isDeleted
+    }
+
     private var formattedDate: String {
-        guard let spot = parkingSpot else { return "" }
+        guard isValid else { return "" }
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
-        return formatter.string(from: spot.timestamp)
+        return formatter.string(from: parkingSpot.timestamp)
     }
     
     private var timeAgo: String {
-        guard let spot = parkingSpot else { return "" }
+        guard isValid else { return "" }
         let formatter = RelativeDateTimeFormatter()
         formatter.dateTimeStyle = .named
-        return formatter.localizedString(for: spot.timestamp, relativeTo: Date())
+        return formatter.localizedString(for: parkingSpot.timestamp, relativeTo: Date())
     }
     
     var body: some View {
         NavigationLink {
-            if let parkingSpot {
+            if isValid {
                 ParkingDetailView(parkingSpot: parkingSpot)
             } else {
                 EmptyStateView()
@@ -39,12 +43,9 @@ struct RecentParkingCard: View {
                 headerView
                 
                 // Content Section
-                if let spot = parkingSpot {
-                    contentView(spot: spot)
-                } else {
-                    
-                    EmptyStateView()
-                }
+               
+                contentView(spot: parkingSpot)
+                
             }
             .background(glassBackground)
             .overlay(borderOverlay)
@@ -81,11 +82,11 @@ struct RecentParkingCard: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
                 
-                if parkingSpot != nil {
-                    Text(timeAgo)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+                
+                Text(timeAgo)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
             }
             
             Spacer()

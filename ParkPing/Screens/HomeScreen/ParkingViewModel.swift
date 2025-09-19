@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import CoreData
 
 @MainActor
 class ParkingViewModel: ObservableObject {
@@ -50,11 +51,11 @@ class ParkingViewModel: ObservableObject {
         do {
             parkingSpots = coreDataManager.fetchParkingSpots()
             /*
-            // Create initial mock data if empty
-            if parkingSpots.isEmpty {
-                createInitialMockData()
-            }
-            */
+             // Create initial mock data if empty
+             if parkingSpots.isEmpty {
+             createInitialMockData()
+             }
+             */
             clearError()
         } catch {
             handleError("Failed to load parking spots: \(error.localizedDescription)")
@@ -94,10 +95,10 @@ class ParkingViewModel: ObservableObject {
         }
     }
     
-    /// Delete a specific parking spot
+    // Tek silme
     func deleteParkingSpot(_ entity: ParkingSpotEntity) async {
         do {
-            try await coreDataManager.deleteParkingSpot(with: entity.objectID)
+            try coreDataManager.delete(entity)
             loadParkingSpots()
             showSuccessToast("Parking spot deleted")
         } catch {
@@ -105,36 +106,33 @@ class ParkingViewModel: ObservableObject {
         }
     }
     
-    /// Delete multiple parking spots
+    // Çoklu silme
     func deleteMultipleParkingSpots(at offsets: IndexSet) async {
         do {
-            for index in offsets {
-                let entity = parkingSpots[index]
-                try await coreDataManager.deleteParkingSpot(with: entity.objectID)
-            }
-            
+            let ids = offsets.map { parkingSpots[$0].objectID }
+            try coreDataManager.delete(with: ids)
             loadParkingSpots()
             let count = offsets.count
             showSuccessToast("Parking spot\(count > 1 ? "s" : "") deleted")
-            
         } catch {
             handleError("Failed to delete parking spots: \(error.localizedDescription)")
         }
     }
     
-    /// Clear all parking spots
-    func clearAllParkingSpots() async {
-        do {
-            for entity in parkingSpots {
-                try await coreDataManager.deleteParkingSpot(with: entity.objectID)
-            }
-            loadParkingSpots()
-            showSuccessToast("All parking spots cleared")
-        } catch {
-            handleError("Failed to clear parking spots: \(error.localizedDescription)")
-        }
-    }
-    
+    /*
+     /// Clear all parking spots FEATURE
+     func clearAllParkingSpots() async {
+     do {
+     for entity in parkingSpots {
+     try await coreDataManager.delete(with: entity.objectID)
+     }
+     loadParkingSpots()
+     showSuccessToast("All parking spots cleared")
+     } catch {
+     handleError("Failed to clear parking spots: \(error.localizedDescription)")
+     }
+     }
+     */
     @MainActor
     func refreshParkingSpots() async {
         isRefreshing = true

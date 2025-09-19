@@ -32,15 +32,5 @@ extension ParkingSpotEntity : Identifiable {
 
 }
 
-extension ParkingSpotEntity {
-    var toParkingSpot: ParkingSpot {
-        ParkingSpot(
-            latitude: self.latitude,
-            longitude: self.longitude,
-            timestamp: self.timestamp,
-            title: self.title,
-            address: self.address
-        )
-    }
-}
+
 
