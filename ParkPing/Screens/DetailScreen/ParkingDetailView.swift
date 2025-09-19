@@ -104,15 +104,15 @@ struct ParkingDetailView: View {
                     }
                 }
             }
-            .alert("Delete Parking Spot", isPresented: $viewModel.showDeleteAlert) {
-                Button("Delete", role: .destructive) {
-                    handleDelete() // ← async yok; ana context’te hızlı ve güvenli
+            .alert(Txt.DeleteConfirm.title, isPresented: $viewModel.showDeleteAlert) {
+                Button(Txt.Common.delete, role: .destructive) {
+                    handleDelete() // ← async yok; ana context'te hızlı ve güvenli
                 }
-                Button("Cancel", role: .cancel) {
+                Button(Txt.Common.cancel, role: .cancel) {
                     HapticManager.shared.selection()
                 }
             } message: {
-                Text("Are you sure you want to delete this parking spot? This action cannot be undone.")
+                Text(Txt.DeleteConfirm.message)
             }
             .sheet(isPresented: $viewModel.showShareSheet) {
                 if let shareItem = viewModel.shareItem {
@@ -143,7 +143,7 @@ struct ActionsSection: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("Actions")
+            Text(Txt.Common.actionsTitle)
                 .font(.headline)
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -151,21 +151,21 @@ struct ActionsSection: View {
             HStack(spacing: 12) {
                 ActionButton(
                     icon: "pencil",
-                    title: "Edit",
+                    title: Txt.Common.edit,
                     color: .blue,
                     action: onEditTap
                 )
                 
                 ActionButton(
                     icon: "square.and.arrow.up",
-                    title: "Share",
+                    title: Txt.Common.share,
                     color: .green,
                     action: onShareTap
                 )
                 
                 ActionButton(
                     icon: "trash",
-                    title: "Delete",
+                    title: Txt.Common.delete,
                     color: .red,
                     action: onDeleteTap
                 )

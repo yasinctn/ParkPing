@@ -58,7 +58,7 @@ class ParkingViewModel: ObservableObject {
              */
             clearError()
         } catch {
-            handleError("Failed to load parking spots: \(error.localizedDescription)")
+            handleError("\(Txt.Messages.failedToLoadSpots): \(error.localizedDescription)")
         }
     }
     
@@ -78,17 +78,17 @@ class ParkingViewModel: ObservableObject {
                 let _ = coreDataManager.createParkingSpot(
                     latitude: currentLocation.coordinate.latitude,
                     longitude: currentLocation.coordinate.longitude,
-                    title: "Parking Spot #\(self.parkingSpots.count + 1)",
+                    title: String(format: Txt.MockData.parkingSpotTitle, "\(self.parkingSpots.count + 1)"),
                     address: await self.getAddressFromLocation(currentLocation)
                 )
                 
                 loadParkingSpots()
-                showSuccessToast("Parking location saved successfully!")
+                showSuccessToast(Txt.Messages.parkingLocationSaved)
                 
             } catch let error as LocationError {
-                handleError(error.errorDescription ?? "Failed to get location")
+                handleError(error.errorDescription ?? Txt.Messages.failedToGetLocation)
             } catch {
-                handleError("Failed to save parking location: \(error.localizedDescription)")
+                handleError("\(Txt.Messages.failedToSaveLocation): \(error.localizedDescription)")
             }
             
             isLoading = false
@@ -100,9 +100,9 @@ class ParkingViewModel: ObservableObject {
         do {
             try coreDataManager.delete(entity)
             loadParkingSpots()
-            showSuccessToast("Parking spot deleted")
+            showSuccessToast(Txt.Messages.parkingSpotDeleted)
         } catch {
-            handleError("Failed to delete parking spot: \(error.localizedDescription)")
+            handleError("\(Txt.Messages.failedToDeleteSpot): \(error.localizedDescription)")
         }
     }
     
@@ -113,9 +113,10 @@ class ParkingViewModel: ObservableObject {
             try coreDataManager.delete(with: ids)
             loadParkingSpots()
             let count = offsets.count
-            showSuccessToast("Parking spot\(count > 1 ? "s" : "") deleted")
+            let message = count > 1 ? Txt.Messages.parkingSpotsDeleted : Txt.Messages.parkingSpotDeleted
+            showSuccessToast(message)
         } catch {
-            handleError("Failed to delete parking spots: \(error.localizedDescription)")
+            handleError("\(Txt.Messages.failedToDeleteSpots): \(error.localizedDescription)")
         }
     }
     
@@ -174,7 +175,7 @@ private extension ParkingViewModel {
     /// Handle errors
     func handleError(_ message: String) {
         errorMessage = message
-        print("❌ ParkingViewModel Error: \(message)")
+        print(String(format: Txt.Debug.errorPrefix, message))
     }
     
     /// Generate random address for mock data
@@ -219,28 +220,28 @@ private extension ParkingViewModel {
                 return address.isEmpty ? generateRandomAddress() : address
             }
         } catch {
-            print("Reverse geocoding failed: \(error)")
+            print(String(format: Txt.Debug.reverseGeocodingFailed, "\(error)"))
         }
         
         // Fallback to coordinates
-        return "Location: \(location.coordinatesString)"
+        return String(format: Txt.Messages.locationPrefix, location.coordinatesString)
     }
     
     /// Create initial mock data for first app launch
     func createInitialMockData() {
         let mockSpots: [(title: String, address: String, hoursAgo: Int)] = [
             (
-                title: "Downtown Parking",
+                title: Txt.MockData.downtownParking,
                 address: "456 Market St, San Francisco, CA",
                 hoursAgo: 2
             ),
             (
-                title: "Mall Parking",
+                title: Txt.MockData.mallParking,
                 address: "789 Shopping Center, Oakland, CA",
                 hoursAgo: 25 // 1+ day ago
             ),
             (
-                title: "Office Parking",
+                title: Txt.MockData.officeParking,
                 address: "321 Business Ave, Palo Alto, CA",
                 hoursAgo: 72 // 3 days ago
             )
@@ -266,7 +267,7 @@ private extension ParkingViewModel {
             try coreDataManager.context.save()
             loadParkingSpots()
         } catch {
-            handleError("Failed to create initial mock data: \(error.localizedDescription)")
+            handleError("\(Txt.MockData.failedToCreateMockData): \(error.localizedDescription)")
         }
     }
 }

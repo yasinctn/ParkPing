@@ -16,7 +16,7 @@ struct DirectionsButton: View {
         } label: {
             HStack {
                 Image(systemName: "location.fill")
-                Text("Directions")
+                Text(Txt.Directions.title)
                     .fontWeight(.semibold)
             }
             .foregroundColor(.white)

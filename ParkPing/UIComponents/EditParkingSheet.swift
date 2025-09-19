@@ -16,20 +16,20 @@ struct EditParkingSheet: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("Bilgiler") {
-                    TextField("Başlık", text: $title)
-                    TextField("Adres", text: $address)
+                Section(Txt.EditParking.infoSection) {
+                    TextField(Txt.EditParking.titleField, text: $title)
+                    TextField(Txt.EditParking.addressField, text: $address)
                 }
             }
-            .navigationTitle("Düzenle")
+            .navigationTitle(Txt.EditParking.title)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") {
+                    Button(Txt.Common.cancel) {
                         onCancel()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Kaydet") {
+                    Button(Txt.Common.save) {
                         onSave()
                     }
                 }

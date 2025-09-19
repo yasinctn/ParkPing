@@ -77,7 +77,7 @@ struct RecentParkingCard: View {
             }
             
             VStack(alignment: .leading, spacing: 2) {
-                Text("Recent Parking")
+                Text(Txt.RecentParking.title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)

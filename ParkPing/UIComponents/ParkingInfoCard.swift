@@ -22,8 +22,8 @@ struct ParkingInfoCard: View {
     }
     
     private var safeTitle: String {
-        guard isValid else { return "Parking Spot" }
-        return (parkingSpot.title?.isEmpty == false ? parkingSpot.title! : "Parking Spot")
+        guard isValid else { return Txt.ParkingSpot.defaultTitle }
+        return (parkingSpot.title?.isEmpty == false ? parkingSpot.title! : Txt.ParkingSpot.defaultTitle)
     }
     
     private var safeAddress: String? {
@@ -76,7 +76,7 @@ struct ParkingInfoCard: View {
                         .foregroundColor(.primary)
                     
                     if !formattedDate.isEmpty {
-                        Text("Saved on \(formattedDate)")
+                        Text(Txt.Common.savedOn(formattedDate))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

@@ -52,7 +52,7 @@ struct LocationDetailsCard: View {
     
     private var content: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Location Details")
+            Text(Txt.LocationDetails.title)
                 .font(.headline)
                 .foregroundColor(.primary)
             
@@ -60,7 +60,7 @@ struct LocationDetailsCard: View {
                 if let coords = safeCoordinates {
                     DetailRow(
                         icon: "location",
-                        title: "Coordinates",
+                        title: Txt.LocationDetails.coordinates,
                         value: coords
                     )
                 }
@@ -68,7 +68,7 @@ struct LocationDetailsCard: View {
                 if !formattedDate.isEmpty {
                     DetailRow(
                         icon: "clock",
-                        title: "Saved",
+                        title: Txt.LocationDetails.saved,
                         value: formattedDate
                     )
                 }
@@ -76,7 +76,7 @@ struct LocationDetailsCard: View {
                 if let address = safeAddress, !address.isEmpty {
                     DetailRow(
                         icon: "mappin.circle",
-                        title: "Address",
+                        title: Txt.LocationDetails.address,
                         value: address
                     )
                 }

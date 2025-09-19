@@ -29,12 +29,12 @@ struct HomeView: View {
                 VStack(spacing: 24) {
                     // Header
                     VStack(spacing: 8) {
-                        Text("ParkPing")
+                        Text(Txt.App.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
-                        Text("Never lose your car again")
+                        Text(Txt.App.tagline)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
@@ -57,7 +57,7 @@ struct HomeView: View {
                     
                     // Main Save Button
                     GlassmorphicButton(
-                        title: "Save Parking Location",
+                        title: Txt.Home.saveParkingLocation,
                         action: {
                             HapticManager.shared.impact(.medium)
                             
@@ -87,23 +87,23 @@ struct HomeView: View {
             .onAppear(perform: {
                 viewModel.refreshData()
             })
-            .alert("Location Error", isPresented: .constant(locationManager.locationError != nil)) {
-                Button("Settings") {
+            .alert(Txt.Alerts.locationError, isPresented: .constant(locationManager.locationError != nil)) {
+                Button(Txt.Common.settings) {
                     locationManager.openLocationSettings()
                 }
-                Button("OK") {
+                Button(Txt.Common.ok) {
                     locationManager.locationError = nil
                 }
             } message: {
                 Text(locationManager.locationError?.errorDescription ?? "")
             }
-            .alert("Location Permission", isPresented: .constant(locationManager.authorizationStatus == .denied)) {
-                Button("Settings") {
+            .alert(Txt.Alerts.locationPermission, isPresented: .constant(locationManager.authorizationStatus == .denied)) {
+                Button(Txt.Common.settings) {
                     locationManager.openLocationSettings()
                 }
-                Button("Cancel", role: .cancel) {}
+                Button(Txt.Common.cancel, role: .cancel) {}
             } message: {
-                Text("ParkPing needs location access to save your parking spots. Please enable location services in Settings.")
+                Text(Txt.Alerts.locationPermissionMessage)
             }
         }
     }

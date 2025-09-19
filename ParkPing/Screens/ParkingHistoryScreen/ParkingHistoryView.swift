@@ -38,14 +38,14 @@ struct ParkingHistoryView: View {
                     }
                     // History Section
                     HStack {
-                        Text("Parking History")
+                        Text(Txt.ParkingHistory.title)
                             .font(.title2)
                             .fontWeight(.semibold)
                             .foregroundColor(.primary)
                         
                         Spacer()
                         
-                        Text("\(viewModel.parkingSpots.count) spots")
+                        Text(Txt.Common.spotsCount(viewModel.parkingSpots.count))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 8)

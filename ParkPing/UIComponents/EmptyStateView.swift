@@ -27,12 +27,12 @@ struct EmptyStateView: View {
             }
             
             VStack(spacing: 8) {
-                Text("No parking saved yet")
+                Text(Txt.EmptyState.noParkingSaved)
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(.primary)
                 
-                Text("Save your first parking spot to see it here")
+                Text(Txt.EmptyState.saveFirstSpot)
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -42,7 +42,7 @@ struct EmptyStateView: View {
             Button(action: {
                 // Navigate to save parking
             }) {
-                Text("Save Parking Spot")
+                Text(Txt.Home.saveParkingSpot)
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)

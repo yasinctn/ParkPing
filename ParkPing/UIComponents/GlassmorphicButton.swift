@@ -24,7 +24,7 @@ struct GlassmorphicButton: View {
                         .font(.title2)
                 }
                 
-                Text(isLoading ? "Saving..." : title)
+                Text(isLoading ? Txt.Common.saving : title)
                     .font(.headline)
                     .fontWeight(.semibold)
             }

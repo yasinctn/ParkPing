@@ -15,7 +15,7 @@ struct MainTabBarView: View {
             HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Home")
+                    Text(Txt.TabBar.home)
                 }
                 .environmentObject(parkingViewModel)
                 .tag(0)
@@ -24,7 +24,7 @@ struct MainTabBarView: View {
             ParkingHistoryView()
                 .tabItem {
                     Image(systemName: "list.bullet")
-                    Text("History")
+                    Text(Txt.TabBar.history)
                 }
                 .environmentObject(parkingViewModel)
                 .tag(1)
@@ -32,7 +32,7 @@ struct MainTabBarView: View {
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
-                    Text("Settings")
+                    Text(Txt.TabBar.settings)
                 }
                 .tag(2)
         }
