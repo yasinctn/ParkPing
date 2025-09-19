@@ -78,7 +78,7 @@ struct ParkingHistoryView: View {
                     .refreshable { await viewModel.refreshParkingSpots() }
                     .listStyle(.plain)
                     
-                    .frame(height: CGFloat(min(viewModel.parkingSpots.count, 5) * 80))
+                    .frame(height: .infinity)
                     
                     
                     Spacer()

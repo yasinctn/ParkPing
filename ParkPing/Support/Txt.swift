@@ -63,6 +63,10 @@ enum Txt {
         static var title: String { String(localized: "recent_parking_title", defaultValue: "Recent Parking") }
     }
     
+    enum ParkingDetails {
+        static var title: String { String(localized: "parking_details_title", defaultValue: "Parking Details") }
+    }
+    
     // MARK: - Parking History
     enum ParkingHistory {
         static var title: String { String(localized: "parking_history_title", defaultValue: "Parking History") }

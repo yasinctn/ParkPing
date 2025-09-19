@@ -239,6 +239,74 @@
         }
       }
     },
+    "edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle"
+          }
+        }
+      }
+    },
+    "edit_parking_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle"
+          }
+        }
+      }
+    },
+    "error_prefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "❌ ParkingViewModel Error: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "❌ ParkingViewModel Hatası: %@"
+          }
+        }
+      }
+    },
+    "failed_to_create_mock_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to create initial mock data"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlangıç test verileri oluşturulamadı"
+          }
+        }
+      }
+    },
     "failed_to_delete_spot" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -320,210 +388,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Park konumu kaydedilemedi"
-          }
-        }
-      }
-    },
-    "location_prefix" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Location: %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konum: %@"
-          }
-        }
-      }
-    },
-    "mall_parking" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mall Parking"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AVM Parkı"
-          }
-        }
-      }
-    },
-    "office_parking" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Office Parking"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ofis Parkı"
-          }
-        }
-      }
-    },
-    "parking_location_saved" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parking location saved successfully!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Park konumu başarıyla kaydedildi!"
-          }
-        }
-      }
-    },
-    "parking_spot_deleted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parking spot deleted"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Park yeri silindi"
-          }
-        }
-      }
-    },
-    "parking_spot_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parking Spot #%@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Park Yeri #%@"
-          }
-        }
-      }
-    },
-    "parking_spots_deleted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parking spots deleted"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Park yerleri silindi"
-          }
-        }
-      }
-    },
-    "failed_to_create_mock_data" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to create initial mock data"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Başlangıç test verileri oluşturulamadı"
-          }
-        }
-      }
-    },
-    "error_prefix" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "❌ ParkingViewModel Error: %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "❌ ParkingViewModel Hatası: %@"
-          }
-        }
-      }
-    },
-    "reverse_geocoding_failed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reverse geocoding failed: %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ters coğrafi kodlama başarısız: %@"
-          }
-        }
-      }
-    },
-    "edit" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Düzenle"
-          }
-        }
-      }
-    },
-    "edit_parking_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Düzenle"
           }
         }
       }
@@ -613,6 +477,40 @@
         }
       }
     },
+    "location_prefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konum: %@"
+          }
+        }
+      }
+    },
+    "mall_parking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mall Parking"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AVM Parkı"
+          }
+        }
+      }
+    },
     "no_parking_saved" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -626,6 +524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Henüz park yeri kaydedilmedi"
+          }
+        }
+      }
+    },
+    "office_parking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Office Parking"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ofis Parkı"
           }
         }
       }
@@ -647,6 +562,25 @@
         }
       }
     },
+    "parking_details_title" : {
+      "comment" : "Title of the screen that shows detailed information about a parking spot.",
+      "extractionState" : "extracted_with_value",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Parking Details"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park Detayları"
+          }
+        }
+      }
+    },
     "parking_history_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -664,6 +598,23 @@
         }
       }
     },
+    "parking_location_saved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking location saved successfully!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park konumu başarıyla kaydedildi!"
+          }
+        }
+      }
+    },
     "parking_spot_default" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -677,6 +628,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Park Yeri"
+          }
+        }
+      }
+    },
+    "parking_spot_deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking spot deleted"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park yeri silindi"
+          }
+        }
+      }
+    },
+    "parking_spot_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking Spot #%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park Yeri #%@"
+          }
+        }
+      }
+    },
+    "parking_spots_deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking spots deleted"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park yerleri silindi"
           }
         }
       }
@@ -796,6 +798,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Son Park Yeri"
+          }
+        }
+      }
+    },
+    "reverse_geocoding_failed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reverse geocoding failed: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ters coğrafi kodlama başarısız: %@"
           }
         }
       }
@@ -1004,42 +1023,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d konum"
-                }
-              }
-            }
-          }
-        }
-      },
-      "variations" : {
-        "plural" : {
-          "one" : {
-            "localizations" : {
-              "en" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d spot"
-                }
-              },
-              "tr" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d kayıt"
-                }
-              }
-            }
-          },
-          "other" : {
-            "localizations" : {
-              "en" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d spots"
-                }
-              },
-              "tr" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d kayıt"
                 }
               }
             }

@@ -104,6 +104,7 @@ struct ParkingDetailView: View {
                     }
                 }
             }
+            .navigationTitle(Txt.ParkingDetails.title)
             .alert(Txt.DeleteConfirm.title, isPresented: $viewModel.showDeleteAlert) {
                 Button(Txt.Common.delete, role: .destructive) {
                     handleDelete() // ← async yok; ana context'te hızlı ve güvenli
