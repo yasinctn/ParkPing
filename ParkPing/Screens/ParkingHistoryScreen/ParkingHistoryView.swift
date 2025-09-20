@@ -9,87 +9,99 @@ import SwiftUI
 import CoreData
 
 struct ParkingHistoryView: View {
+    @EnvironmentObject private var viewModel: ParkingViewModel
     
-    @StateObject private var viewModel = ParkingViewModel()
+    // Silinmiş/bağlamsız objeyi filtrele
+    private var recentSpot: ParkingSpotEntity? {
+        guard let spot = viewModel.parkingSpots.first,
+              spot.managedObjectContext != nil,
+              !spot.isDeleted else { return nil }
+        return spot
+    }
     
     var body: some View {
-        NavigationView{
-            
+        NavigationView {
             ZStack {
                 // Background gradient
                 LinearGradient(
-                    colors: [
-                        Color.black,
-                        Color.blue.opacity(0.1),
-                        Color.purple.opacity(0.05)
-                    ],
+                    colors: [Color.black, Color.blue.opacity(0.1), Color.purple.opacity(0.05)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
                 
-                VStack{
-                    if let spot = viewModel.parkingSpots.first,!spot.isDeleted,
-                       spot.managedObjectContext != nil {
-                        RecentParkingCard(parkingSpot: spot)
-                            .padding()
-                    } else {
-                        EmptyStateView().padding()
+                // Kayıt yoksa Empty state (opsiyonel)
+                if viewModel.parkingSpots.isEmpty {
+                    Section {
+                        EmptyStateView()
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
                     }
-                    // History Section
-                    HStack {
-                        Text(Txt.ParkingHistory.title)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        Text(Txt.Common.spotsCount(viewModel.parkingSpots.count))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(.ultraThinMaterial)
-                            .clipShape(Capsule())
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    
+                }else {
                     List {
-                        ForEach(viewModel.parkingSpots, id: \.objectID) { spot in
-                            ParkingHistoryCard(parkingSpot: spot)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(
-                                    EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20)
-                                )
-                        }
-                        .onDelete { indexSet in
-                            Task {
-                                for index in indexSet {
-                                    let spot = viewModel.parkingSpots[index]
-                                    await viewModel.deleteParkingSpot(spot)
-                                }
+                        // SECTION 1: Recent
+                        if let spot = recentSpot {
+                            Section {
+                                RecentParkingCard(parkingSpot: spot)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                             }
                         }
+                        
+                        // SECTION 2: History (ilk kayıt hariç)
+                        Section {
+                            ForEach(viewModel.parkingSpots, id: \.objectID) { spot in
+                                ParkingHistoryCard(parkingSpot: spot)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
+                            }
+                            .onDelete { indexSet in
+                                Task {
+                                    for index in indexSet {
+                                        let spot = viewModel.parkingSpots[index]
+                                        await viewModel.deleteParkingSpot(spot)
+                                    }
+                                }
+                            }
+                        } header: {
+                            HStack {
+                                Text(Txt.ParkingHistory.title) // "Parking History" / "Park Geçmişi"
+                                Spacer()
+                                Text(Txt.Common.spotsCount(viewModel.parkingSpots.count))
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(Capsule())
+                            }
+                            .textCase(nil)
+                        }
                     }
+                    .listStyle(.plain)
                     .onAppear { Task { await viewModel.refreshParkingSpots() } }
                     .refreshable { await viewModel.refreshParkingSpots() }
-                    .listStyle(.plain)
-                    
-                    .frame(height: .infinity)
-                    
-                    
-                    Spacer()
+                    .modifier(ScrollBGClearIfAvailable())
                 }
             }
-            
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
-
-#Preview {
-    ParkingHistoryView()
+// iOS 16+: List/Form arka planını şeffaf yap, iOS 15’te zarifçe yok say
+private struct ScrollBGClearIfAvailable: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
+        } else {
+            content.background(Color.clear)
+        }
+    }
 }
+
