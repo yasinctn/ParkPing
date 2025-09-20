@@ -39,24 +39,30 @@ struct ParkingHistoryView: View {
                             .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
                     }
                 }else {
-                    List {
-                        // SECTION 1: Recent
+                    
+                    VStack {
                         if let spot = recentSpot {
-                            Section {
-                                RecentParkingCard(parkingSpot: spot)
-                                    .listRowBackground(Color.clear)
-                                    .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
-                            }
+                            RecentParkingCard(parkingSpot: spot)
+                                .padding(10)
                         }
+                        HStack {
+                            Text(Txt.ParkingHistory.title) // "Parking History" / "Park Geçmişi"
+                            Spacer()
+                            Text(Txt.Common.spotsCount(viewModel.parkingSpots.count))
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Capsule())
+                        }.padding(12)
                         
-                        // SECTION 2: History (ilk kayıt hariç)
-                        Section {
+                        List {
                             ForEach(viewModel.parkingSpots, id: \.objectID) { spot in
                                 ParkingHistoryCard(parkingSpot: spot)
                                     .listRowBackground(Color.clear)
                                     .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10))
                             }
                             .onDelete { indexSet in
                                 Task {
@@ -66,25 +72,13 @@ struct ParkingHistoryView: View {
                                     }
                                 }
                             }
-                        } header: {
-                            HStack {
-                                Text(Txt.ParkingHistory.title) // "Parking History" / "Park Geçmişi"
-                                Spacer()
-                                Text(Txt.Common.spotsCount(viewModel.parkingSpots.count))
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(.ultraThinMaterial)
-                                    .clipShape(Capsule())
-                            }
-                            .textCase(nil)
-                        }
+                        }.frame(height: CGFloat(max(100, viewModel.parkingSpots.count * 100)))
+                            .listStyle(.plain)
+                            .onAppear { Task { await viewModel.refreshParkingSpots() } }
+                            .refreshable { await viewModel.refreshParkingSpots() }
+                            .modifier(ScrollBGClearIfAvailable())
                     }
-                    .listStyle(.plain)
-                    .onAppear { Task { await viewModel.refreshParkingSpots() } }
-                    .refreshable { await viewModel.refreshParkingSpots() }
-                    .modifier(ScrollBGClearIfAvailable())
+                    
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

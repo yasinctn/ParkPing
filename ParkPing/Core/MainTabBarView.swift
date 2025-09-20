@@ -36,6 +36,7 @@ struct MainTabBarView: View {
                 }
                 .tag(2)
         }
+        .tint(Color(red: 0.4, green: 0.2, blue: 0.6))
     }
 }
 
