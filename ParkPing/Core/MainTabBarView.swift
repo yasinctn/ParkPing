@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabBarView: View {
     @EnvironmentObject var parkingViewModel: ParkingViewModel
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     var body: some View {
         
         TabView {
@@ -34,6 +35,7 @@ struct MainTabBarView: View {
                     Image(systemName: "gear")
                     Text(Txt.TabBar.settings)
                 }
+                .environmentObject(settingsViewModel)
                 .tag(2)
         }
         .tint(Color(red: 0.4, green: 0.2, blue: 0.6))

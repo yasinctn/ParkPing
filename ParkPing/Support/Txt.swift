@@ -27,6 +27,44 @@ enum Txt {
         static var privacyLocationSubtitle: String { String(localized: "privacy_location_subtitle", defaultValue: "Stored only on device") }
         static var privacyNotificationsTitle: String { String(localized: "privacy_notifications_title", defaultValue: "Notifications") }
         static var privacyNotificationsSubtitle: String { String(localized: "privacy_notifications_subtitle", defaultValue: "Local reminders only") }
+        
+        // Yeni eklenen ayarlar
+        static var appearance: String { String(localized: "appearance_section", defaultValue: "Appearance") }
+        static var theme: String { String(localized: "theme_label", defaultValue: "Theme") }
+        static var language: String { String(localized: "language_section", defaultValue: "Language") }
+        static var languageDescription: String { String(localized: "language_description", defaultValue: "App-specific language is selected from Settings > ParkPing screen with iOS 13+.") }
+        static var permissions: String { String(localized: "permissions_section", defaultValue: "Permissions") }
+        static var location: String { String(localized: "location_label", defaultValue: "Location") }
+        static var notifications: String { String(localized: "notifications_label", defaultValue: "Notifications") }
+        static var openSettings: String { String(localized: "open_settings", defaultValue: "Open Settings") }
+        static var routing: String { String(localized: "routing_section", defaultValue: "Navigation") }
+        static var defaultApp: String { String(localized: "default_app", defaultValue: "Default App") }
+        static var routingDescription: String { String(localized: "routing_description", defaultValue: "When you save a location, the 'Directions' button opens in this app.") }
+        static var data: String { String(localized: "data_section", defaultValue: "Data") }
+        static var clearHistory: String { String(localized: "clear_history", defaultValue: "Clear History") }
+        static var privacyPolicy: String { String(localized: "privacy_policy", defaultValue: "Privacy Policy") }
+    }
+    
+    // MARK: - Theme Options
+    enum Theme {
+        static var system: String { String(localized: "theme_system", defaultValue: "System") }
+        static var light: String { String(localized: "theme_light", defaultValue: "Light") }
+        static var dark: String { String(localized: "theme_dark", defaultValue: "Dark") }
+    }
+    
+    // MARK: - Permission Status
+    enum PermissionStatus {
+        static var authorized: String { String(localized: "permission_authorized", defaultValue: "Authorized") }
+        static var denied: String { String(localized: "permission_denied", defaultValue: "Denied") }
+        static var restricted: String { String(localized: "permission_restricted", defaultValue: "Restricted") }
+        static var notDetermined: String { String(localized: "permission_not_determined", defaultValue: "Not Asked") }
+        static var unknown: String { String(localized: "permission_unknown", defaultValue: "Unknown") }
+    }
+    
+    // MARK: - Routing Apps
+    enum RoutingApps {
+        static var appleMaps: String { String(localized: "apple_maps", defaultValue: "Apple Maps") }
+        static var googleMaps: String { String(localized: "google_maps", defaultValue: "Google Maps") }
     }
     
     // MARK: - Common

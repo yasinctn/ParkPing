@@ -9,7 +9,8 @@ import SwiftUI
 
 @main
 struct ParkPingApp: App {
-    @StateObject private var viewModel = ParkingViewModel()
+    @StateObject private var parkingViewModel = ParkingViewModel()
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     init() {
         // Initialize location manager
@@ -19,7 +20,8 @@ struct ParkPingApp: App {
     var body: some Scene {
         WindowGroup {
             MainTabBarView()
-                .environmentObject(viewModel)
+                .environmentObject(parkingViewModel)
+                .environmentObject(settingsViewModel)
             
         }
     }
