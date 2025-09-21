@@ -18,16 +18,39 @@ final class ParkingDetailViewModel: ObservableObject {
     @Published var editedTitle: String = ""
     @Published var editedAddress: String = ""
     
-    func openDirections(to parkingSpot: ParkingSpotEntity) {
+    func openDirections(to parkingSpot: ParkingSpotEntity, preferredApp: String) {
         let coordinate = CLLocationCoordinate2D(
             latitude: parkingSpot.latitude,
             longitude: parkingSpot.longitude
         )
-        
+        let name = parkingSpot.title ?? "Parking Spot"
+
+        if preferredApp == Txt.RoutingApps.googleMaps {
+            // Google Maps tercih edilmiş
+            let daddr = "\(coordinate.latitude),\(coordinate.longitude)"
+            let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+
+            // Önce uygulama scheme'i deneyelim
+            if UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!) {
+                let urlString = "comgooglemaps://?daddr=\(daddr)&directionsmode=driving&q=\(encodedName)"
+                if let url = URL(string: urlString) {
+                    UIApplication.shared.open(url)
+                    return
+                }
+            }
+
+            // Fallback: Web
+            let webString = "https://www.google.com/maps/dir/?api=1&destination=\(daddr)&travelmode=driving&destination_place_id=\(encodedName)"
+            if let url = URL(string: webString) {
+                UIApplication.shared.open(url)
+                return
+            }
+        }
+
+        // Apple Maps (default)
         let placemark = MKPlacemark(coordinate: coordinate)
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = parkingSpot.title ?? "Parking Spot"
-        
+        mapItem.name = name
         mapItem.openInMaps(launchOptions: [
             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
         ])

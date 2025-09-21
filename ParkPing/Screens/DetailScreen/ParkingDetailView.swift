@@ -14,6 +14,7 @@ struct ParkingDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = ParkingDetailViewModel()
+    @AppStorage("defaultRoutingApp") private var routingApp: String = Txt.RoutingApps.appleMaps
     
     private var isValid: Bool {
         parkingSpot.managedObjectContext != nil && !parkingSpot.isDeleted
@@ -66,7 +67,7 @@ struct ParkingDetailView: View {
                                                 Spacer()
                                                 DirectionsButton {
                                                     HapticManager.shared.impact(.medium)
-                                                    viewModel.openDirections(to: parkingSpot)
+                                                    viewModel.openDirections(to: parkingSpot, preferredApp: routingApp)
                                                 }.padding(8)
                                             }.padding(8)
                                         }
