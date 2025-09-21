@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import CoreLocation
-import UserNotifications
 
 struct SettingsView: View {
     @EnvironmentObject private var vm: SettingsViewModel
@@ -124,8 +122,8 @@ struct SettingsView: View {
                             Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                                 .foregroundColor(.secondary)
                         }
-
-                        Link(destination: URL(string: "https://apps.apple.com/app/parkping")!) {
+                        //uygulama linki eklenecek
+                        Link(destination: URL(string: "https://apps.apple.com")!) {
                             HStack {
                                 Image(systemName: "star")
                                 Text(Txt.Settings.rateApp)
@@ -143,8 +141,9 @@ struct SettingsView: View {
                             }
                         }
                     }
-
+                    // TODO: Core Data geçmiş temizleme işlemi
                     // VERİ
+                    /*
                     Section(Txt.Settings.data) {
                         Button(role: .destructive) {
                             confirmResetData()
@@ -155,6 +154,7 @@ struct SettingsView: View {
                             }
                         }
                     }
+                     */
                 }
                 .navigationTitle(Text(Txt.Settings.title))
                 .background(.clear)
